@@ -1,0 +1,13 @@
+.menu-header {
+    display: flex;
+    flex-direction: column;
+    height: 250px;
+    justify-content: center;
+    align-items: center;
+    img {
+        height: 100px;
+        width: 250px;
+        margin-bottom: 15px;
+        padding: 5px 5px;
+    }
+}

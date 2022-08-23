@@ -1,0 +1,78 @@
+<p-toast></p-toast>
+<div class="card">
+  <h2>Aprobación de Ordenes de Pedidos</h2>
+
+  <p-table  dataKey="id" [value]="lstOrdenes" responsiveLayout="scroll" [lazy]="true" [responsive]="true" [rows]="20" [paginator]="true" [rowHover]="true">
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Nro. Pedido</th>
+              <th>Fecha</th>
+              <th>Nro. Productos</th>
+              <th>Total</th>
+              <th style="width:4rem"></th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-ordenes>
+          <tr>
+              <td>{{ordenes.id}}</td>
+              <td>{{ordenes.fecha}}</td>
+              <td>{{ordenes.items.length}}</td>
+              <td>{{ordenes.total}}</td>
+              <td>
+                  <button type="button" pButton pRipple icon="pi pi-search" (click)="selectOrden(ordenes)"></button>
+              </td>
+          </tr>
+      </ng-template>
+  </p-table>
+
+  <p-dialog [(visible)]="dialog" [style]="{width: '550px'}" header="Detalle Pedido" appendTo="body" [baseZIndex]="10000" [modal]="true" styleClass="p-fluid">
+    <ng-template pTemplate="content">
+
+      <div class="grid p-fluid">
+        <div class="col-12 md:col-6">
+          <label for="dni">DNI</label>
+          <input type="text" pInputText id="dni" [(ngModel)]="info.cliente.dni"/>
+        </div>
+        <div class="col-12 md:col-6">
+          <label for="cliente">Cliente</label>
+          <input type="text" pInputText id="cliente" [(ngModel)]="info.cliente.nombre"/>
+        </div>
+        <div class="col-12">
+          <label>Datos del Pedido</label>
+        </div>
+        <div class="col-12">
+          <p-table [value]="info.items" dataKey="id" responsiveLayout="scroll" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                  <th>Codigo</th>
+                  <th>Producto</th>
+                  <th>Solicitado</th>
+                  <th>Stock</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product>
+                <tr>
+                    <td>{{product.producto.codigo}}</td>
+                    <td>{{product.producto.descripcion}}</td>
+                    <td>{{product.cantidad}}</td>
+                    <td>{{product.producto.stock}}</td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                  <td colspan="5">No hay datos</td>
+              </tr>
+          </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cerrar" icon="pi pi-times" class="p-button-text" (click)="cerrarDialog()"></button>
+      <button pButton pRipple label="Cancelar" icon="pi pi-trash" class="p-button-text" (click)="cancelar(info.id)"></button>
+      <button pButton pRipple label="Aprobar" icon="pi pi-check" class="p-button-text" (click)="aprobar(info)"></button>
+  </ng-template>
+  </p-dialog>
+
+
+</div>

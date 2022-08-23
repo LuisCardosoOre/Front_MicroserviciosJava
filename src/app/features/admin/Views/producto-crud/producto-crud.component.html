@@ -1,0 +1,52 @@
+<p-toast></p-toast>
+
+<app-tabla [cols]="columns" [datos]="lstProductos" [filtro]="filtros" [titulo]="titulo" [loading]="loading" (editar)="actualizar($event)"
+(eliminar)="eliminar($event)" (nuevo)="nuevo()"></app-tabla>
+
+<p-dialog [(visible)]="dialog" [style]="{width: '550px'}" header="Detalle Grupo" appendTo="body" [baseZIndex]="10000" [modal]="true" styleClass="p-fluid">
+   
+    <ng-template pTemplate="content">
+    <form [formGroup] = "form"  >
+
+        <div class="p-field">
+            <label for="codigo">Código</label>
+            <input type="text" pInputText id="codigo" formControlName="codigo" [attr.disabled]="editar ? '' : null" autofocus/>           
+            <small class="p-invalid" *ngIf="submitted && handleError('codigo', 'required')">Código es requerido.</small>
+            <small class="p-invalid" *ngIf="submitted && handleError('codigo', 'pattern')">Código debe ser numerico y 3 dígitos.</small>
+        </div>
+
+        <div class="p-field">
+            <label for="descripcion">Descripción</label>
+            <input type="text" pInputText id="descripcion" formControlName="descripcion" />           
+            <small class="p-invalid" *ngIf="submitted && handleError('descripcion', 'required')">Descripción es requerido.</small>            
+        </div>
+
+        <div class="p-field p-col-12 p-md-3">
+            <label for="precio">Precio</label>
+            <p-inputNumber formControlName="precio" id="precio" mode="decimal" [minFractionDigits]="1" [maxFractionDigits]="2">
+            </p-inputNumber>
+            <small class="p-invalid" *ngIf="submitted && handleError('precio', 'required')">Precio es requerido.</small>
+        </div>
+        <div class="p-field p-col-12 p-md-3">
+            <label for="stock">Stock</label>
+            <p-inputNumber formControlName="stock" id="stock" mode="decimal" [min]="0" [max]="100">
+            </p-inputNumber>
+            <small class="p-invalid" *ngIf="submitted && handleError('stock', 'required')">Stock es requerido.</small>
+        </div>
+
+        <div class="p-field">
+            <label for="tipo">Tipo</label>
+            <p-dropdown id="tipo" [options]="lstTipoProducto" formControlName="tipo"   placeholder="Seleccione" optionValue="codigo" optionLabel="descripcion" [filter]="false"></p-dropdown>
+            <small class="p-invalid" *ngIf="submitted && handleError('tipo', 'required')">Tipo es requerido.</small>
+        </div>        
+        
+    </form>   
+    </ng-template>
+    
+    <ng-template pTemplate="footer">
+        <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text" (click)="cerrarDialog()"></button>
+        <button pButton pRipple label="Guardar" icon="pi pi-check" class="p-button-text" (click)="guardar()"></button>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

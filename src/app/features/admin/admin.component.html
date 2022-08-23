@@ -1,0 +1,30 @@
+<mat-drawer-container>
+  <mat-drawer #drawer class="mat-elevation-z4" mode="side" opened> 
+    <app-menu></app-menu>
+  </mat-drawer>
+  <mat-drawer-content>
+    <mat-toolbar class="mat-elevation-z8">
+      <mat-toolbar-row>
+        <div>
+          <button mat-icon-button (click)="drawer.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+          <span>Administrador</span>
+        </div>
+
+       
+
+        <p-button label="Carrito" icon="pi pi-shopping-cart" styleClass="p-button-warning" [badge]="carritoService.notificacion" badgeClass="p-badge-danger"
+	(onClick)="mostratCarrito();"></p-button>
+
+        <button (click)="closeSession()" mat-button>
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Cerrar Sesión</span>
+        </button>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div id="main" class="page-container">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

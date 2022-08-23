@@ -1,0 +1,39 @@
+<div class="card">
+    <p-toolbar styleClass="p-mb-2">
+        <ng-template pTemplate="left">
+            <button pButton pRipple label="Nuevo" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="nuevo.emit()"></button>
+        </ng-template>
+
+    </p-toolbar>
+    <p-table #dt [columns]="cols" [value]="datos"  [responsive]="true" [rows]="20" [paginator]="true" [rowHover]="true" 
+            [globalFilterFields]="filtro" [filterDelay]="0" [loading]="loading">
+        <ng-template pTemplate="caption">
+            <div class="p-d-flex p-ai-center p-jc-between">
+                <h5 class="p-m-0">{{titulo}}</h5>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Buscar" />
+                </span>
+            </div>
+        </ng-template>    
+
+        <ng-template pTemplate="header" let-columns>
+            <tr>
+                <th *ngFor="let col of columns" pSortableColumn="{{col.cuerpo}}">
+                    {{col.cabecera}}
+                    <p-sortIcon field="{{col.cuerpo}}"></p-sortIcon>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+                <td *ngFor="let col of columns">
+                    <span class="p-column-title">{{col.cabecera}}</span>
+                    {{rowData[col.cuerpo]}}
+                    <button *ngIf="col.cuerpo == ''" pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" pTooltip="Editar" tooltipPosition="bottom" (click)="editar.emit(rowData)"></button>
+                    <button *ngIf="col.cuerpo == ''" pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-danger" pTooltip="Eliminar" tooltipPosition="bottom" (click)="eliminar.emit(rowData)"></button>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
